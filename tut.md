@@ -52,3 +52,37 @@ Q. packages
 -> graphql -> allow us to define the graphql schema
 
 //Building an Event Booking Application
+
+
+Way - 1 -> .then().catch()
+
+<!-- const findUser = (userId) => {
+    return User.findById(userId)
+        .then(user => {
+            return { ...user._doc, _id: user.id, password: null, createdEvents: findEvents.bind(this, user._doc.createdEvents) };
+        })
+        .catch(err => {
+            throw err;
+        })
+}; -->
+
+Way - 2 -> async/await
+
+<!-- const findUser = async (userId) => {
+
+    try {
+        const userFoundById = await User.findById(userId);
+        return { 
+            ...userFoundById._doc,
+            _id: userFoundById.id, 
+            password: null, 
+            createdEvents: findEvents.bind(this,         userFoundById._doc.createdEvents) 
+      }; 
+    } 
+    catch (err) {
+       throw err;
+    }        
+}; -->
+
+NOTE: what is the difference between just doing event.creator & event._doc.creator?
+-> Both work fine actually, the difference is _doc contains just the data, whereas in the case we do not use it we are also sending metadata which we might not want to return it
