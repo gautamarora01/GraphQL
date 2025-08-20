@@ -1,3 +1,5 @@
+require("dotenv").config(); 
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const { graphqlHTTP } = require("express-graphql");
@@ -5,12 +7,15 @@ const mongoose = require("mongoose");
 
 const graphQlSchema = require("./graphql/schema/index");
 const graphQlResolvers = require("./graphql/resolvers/index");
+const authMiddleware = require("./middlewares/is-auth"); 
 
 const PORT = process.env.PORT || 3000;
 const app = express();
 
 //Middlewares
 app.use(bodyParser.json());
+
+app.use(authMiddleware);
 
 app.use("/graphql",graphqlHTTP({ //we can also use /api instead of /graphql
   schema: graphQlSchema,

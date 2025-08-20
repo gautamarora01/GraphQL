@@ -86,3 +86,23 @@ Way - 2 -> async/await
 
 NOTE: what is the difference between just doing event.creator & event._doc.creator?
 -> Both work fine actually, the difference is _doc contains just the data, whereas in the case we do not use it we are also sending metadata which we might not want to return it
+
+NOTE: In Schema, '!' -> means the value cannot be null
+[String!]! -> means array of strings, where string is also not null, and the array can also not be null
+
+How bcrypt matches plain text password submitted to the original hash in the DB?
+
+Receive Password and Hash: The user submits their password, and you retrieve the corresponding stored hash from your database. The stored hash is the output of a previous bcrypt operation on the user's original password.
+
+Re-hashing: The bcrypt library takes the plain-text password provided by the user and the stored hash as input. It then extracts the salt from the stored hash. The salt is a random string that was used to create the original hash, and it's stored as part of the bcrypt hash string itself.
+
+The library then takes this extracted salt and uses it to re-hash the user's newly submitted plain-text password. This is a critical step because it ensures that the same salt is used for both hashing operations.
+
+Comparison: The bcrypt algorithm then compares the newly generated hash with the original stored hash. If the two hashes match, the passwords are the same. If they don't, the passwords are different.
+
+To create hashed password initially while signup ->bcrypt.hash(password, 12);
+
+To compare the two passwords during login -> 
+bcrypt.compare(submittedPassword, hashedPasswordInDb)
+
+NOTE: we should always give away same error message if user does not exist or password is incorrect and it should be invalid credentials. (so that no info is given out)
