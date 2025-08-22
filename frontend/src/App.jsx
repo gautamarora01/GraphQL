@@ -1,10 +1,12 @@
 import './App.css'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import AuthPage from './Pages/AuthPage';
-import EventsPage from './Pages/EventsPage';
-import BookingsPage from './Pages/BookingsPage';
+import AuthPage from './pages/AuthPage';
+import EventsPage from './pages/EventsPage';
+import BookingsPage from './pages/BookingsPage';
 import MainNavigation from './components/MainNavigation';
-import NotFoundPage from './Pages/NotFoundPage';
+import NotFoundPage from './pages/NotFoundPage';
+import { AuthContext } from './context/AuthContext';
+import { useState } from 'react';
 
 // what do we want ? 
 // authentication pages
@@ -12,20 +14,42 @@ import NotFoundPage from './Pages/NotFoundPage';
 // create booking, view bookings, cancel booking
 
 function App() {
+
+  const [userId, setUserId] = useState(null);
+  const [token, setToken] = useState(null);
+
+  function login(token, userId, tokenExpiration){
+    setToken(token);
+    setUserId(userId);
+  };
+
+  function logout(){
+    setToken(null);
+    setUserId(null);
+  };
   
-  return (
+  return ( 
     <BrowserRouter>
       <>
-        <MainNavigation/>
-        <main className='main-content'>
-          <Routes>
-            <Route path='/' element={<Navigate to={'/auth'} replace={true}/>}/>
-            <Route path='/auth' element={<AuthPage/>}/>
-            <Route path='/events' element={<EventsPage/>}/>
-            <Route path='/bookings' element={<BookingsPage/>}/>
-            <Route path="*" element={<NotFoundPage/>} />
-          </Routes>
-        </main>
+        <AuthContext.Provider value={{
+          token: token,
+          userId: userId,
+          login: login,
+          logout: logout
+        }}>
+          <MainNavigation/>
+          <main className='main-content'>
+            <Routes>
+              {!token && <Route path='/' element={<Navigate to={'/auth'} replace={true}/>}/>}
+              {token && <Route path='/' element={<Navigate to={'/events'} replace={true}/>}/>}
+              {!token && <Route path='/auth' element={<AuthPage/>}/>}
+              {token && <Route path='/auth' element={<Navigate to={'/events'} replace={true}/>}/>}
+              <Route path='/events' element={<EventsPage/>}/>
+              <Route path='/bookings' element={<BookingsPage/>}/>
+              {token && <Route path="*" element={<NotFoundPage/>} />}
+            </Routes>
+          </main>
+        </AuthContext.Provider>
       </>
     </BrowserRouter>
   )

@@ -1,16 +1,23 @@
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext';
+import { useContext } from 'react';
 
-function MainNavigation(props) {
+function MainNavigation() {
+
+  const context = useContext(AuthContext);
+
   return (
     <header className='main-navigation-header'>
         <div className='main-navigation-logo'>
-            <h1>EventMate</h1>
+            <h1>
+              <Link to='/events' style={{ textDecoration: "none", color: "inherit" }}>EventMate</Link>
+            </h1>
         </div>
         <nav className='main-navigation-item'>
             <ul>
-                <li><NavLink to='/auth'>Authenticate</NavLink></li>
+                {!context.token && <li><NavLink to='/auth'>Authenticate</NavLink></li>}
                 <li><NavLink to='/events'>Events</NavLink></li>
-                <li><NavLink to='/bookings'>Bookings</NavLink></li>
+                {context.token && <li><NavLink to='/bookings'>Bookings</NavLink></li>}
             </ul>
         </nav>
     </header>

@@ -1,6 +1,10 @@
-body{
+body {
     font-family: 'Inter', sans-serif;
     background-color: #FAFAF8;
+}
+
+button {
+  font-family: 'Inter', sans-serif;
 }
 
 .main-navigation-header {
@@ -46,11 +50,108 @@ body{
 }
 
 .main-navigation-item a.active {
-  color: #90d8f9;
+  border-bottom: 2px solid #38bdf8;
 }
 
 .main-content {
   padding: 2rem 2rem;
   background-color: #F9F7F7;
   min-height: calc(100vh - 4rem);
+}
+
+.auth-form {
+  max-width: 400px;
+  margin: 4rem auto;
+  padding: 2.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+}
+
+/* Spacing between input groups */
+.form-control {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-control label {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #333;
+}
+
+.form-control input {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.1s ease-in-out;
+}
+
+.form-control input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 3px rgba(63, 114, 175, 0.2);
+  outline: none;
+}
+
+.form-actions {
+  margin-top: 1.5rem;
+}
+
+.btn-submit {
+  display: block;            /* makes the button behave like a block element */
+  margin: 1rem auto;         /* auto left/right margin centers it */
+  width: 100%;
+  max-width: 400px;          /* optional: don’t let it grow too wide */
+  font-size: 1rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  border-color: #365f91;
+  padding: 0.9rem 1rem;
+  background-color: #3F72AF;
+  color: #F9F7F7;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.btn-submit:hover {
+  background-color: #365f91;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.form-switch {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #333;
+}
+
+.form-switch p {
+  margin: 0;
+}
+
+.btn-switch {
+  background: none;
+  border: none;
+  color: #3F72AF;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-switch:hover {
+  border-bottom: 1px solid #3F72AF;
 }

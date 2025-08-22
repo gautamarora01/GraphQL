@@ -1,6 +1,7 @@
 require("dotenv").config(); 
 
 const express = require("express");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const { graphqlHTTP } = require("express-graphql");
 const mongoose = require("mongoose");
@@ -13,6 +14,12 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 //Middlewares
+
+app.use(cors({
+  origin: process.env.FRONTEND_URL
+}));
+
+
 app.use(bodyParser.json());
 
 app.use(authMiddleware);
