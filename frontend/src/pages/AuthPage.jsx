@@ -6,6 +6,7 @@ function AuthPage() {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [authError, setAuthError] = useState(null);
   const authContext = useContext(AuthContext);
 
   async function handleAuth(){
@@ -48,20 +49,28 @@ function AuthPage() {
 
       if (isLoginMode && result.data?.login?.token) {
         authContext.login(result.data.login.token, result.data.login.userId, result.data.login.tokenExpiration);
+        setAuthError(null);
       } 
       else if (!isLoginMode && result.data?.createUser?._id) {
         setIsLoginMode(true);
+        setAuthError(null);
       }
       else if (result.errors && result.errors.length > 0) {
-
+        setAuthError(result.errors[0].message);
       }
 
-    } catch (err) {
+    } 
+    catch (err) {
+      setAuthError("Something went wrong. Please try again.");
       console.log(err);
     }
   }
 
   return (
+  <>
+    <div className="error-container">
+      {authError && <p className="error-message">{authError}</p>}
+    </div>
     <div className="auth-form">
       <h2>{isLoginMode ? "Login" : "Sign Up"}</h2>
       <div className="form-control">
@@ -82,6 +91,7 @@ function AuthPage() {
         </button>
       </div>
     </div>
+  </>
   )
 }
 

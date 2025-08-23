@@ -7,6 +7,18 @@ button {
   font-family: 'Inter', sans-serif;
 }
 
+.error-container {
+  min-height: 2.5rem; /* Adjust to fit your error-message height */
+}
+
+.error-message {
+  color: #b91c1c;
+  background: #fee2e2;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
 .main-navigation-header {
   background-color: #3F72AF; /* primary nav background */
   color: #F9F7F7;
@@ -36,20 +48,32 @@ button {
   font-size: 1rem;
 }
 
-.main-navigation-item a {
+.main-navigation-item a, 
+.main-navigation-item button {
   text-decoration: none;
   color: #F9F7F7;
   font-weight: 500;
   transition: color 0.2s ease-in-out;
   padding-bottom: 2px;
+  cursor: pointer;
+  display: inline-block;
 }
 
-.main-navigation-item a:hover{
+.main-navigation-item button {
+  outline: none;
+  background: none;
+  border: none;
+  font-size: 1rem;
+}
+
+.main-navigation-item a:hover, 
+.main-navigation-item button:hover {
   color: #38bdf8; /* cyan when active or hovered */
   border-bottom: 2px solid #38bdf8;
 }
 
-.main-navigation-item a.active {
+.main-navigation-item a.active,
+.main-navigation-item button:active {
   border-bottom: 2px solid #38bdf8;
 }
 
@@ -61,7 +85,7 @@ button {
 
 .auth-form {
   max-width: 400px;
-  margin: 4rem auto;
+  margin: 2rem auto;
   padding: 2.5rem;
   background: #ffffff;
   border-radius: 12px;
@@ -70,6 +94,7 @@ button {
 
 .auth-form h2 {
   font-size: 1.8rem;
+  color: #333;
   margin-bottom: 1.5rem;
   font-weight: 400;
 }
@@ -154,4 +179,124 @@ button {
 
 .btn-switch:hover {
   border-bottom: 1px solid #3F72AF;
+}
+
+/* Backdrop overlay */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* semi-transparent black */
+  z-index: 100; /* sits behind modal */
+}
+
+/* Modal container */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  max-width: 90%;
+  background: #fff;
+  border-radius: 12px;
+  z-index: 200; /* sits above backdrop */
+  overflow: hidden;
+  animation: fadeIn 0.3s ease, slideDown 0.3s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Header */
+.modal-header {
+  padding: 1rem;
+  background: #3F72AF; /* nice blue theme */
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Content */
+.modal-content {
+  padding: 1rem;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* Actions */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+.modal-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.modal-btn:hover {
+  opacity: 0.9;
+}
+
+/* Differentiate Cancel / Confirm */
+.modal-btn:first-child {
+  background: #DBE2EF; /* gray */
+  color: #333;
+}
+
+.modal-btn:last-child {
+  background: #3F72AF; /* blue */
+  color: white;
+}
+
+.events-control {
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  max-width: 500px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.events-control p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.btn-create-event {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  background: #3F72AF;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-create-event:hover {
+  background: #365f91;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translate(-50%, -60%); }
+  to { transform: translate(-50%, -50%); }
 }

@@ -12,7 +12,7 @@ module.exports = {
             const existingUser = await User.findOne({ email: args.userInput.email });
             
             if (existingUser) {
-                throw new Error("User already exists");
+                throw new Error("User already exists!");
             }
 
             const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
