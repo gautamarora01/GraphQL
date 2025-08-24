@@ -19,6 +19,51 @@ button {
   font-size: 0.9rem;
 }
 
+.notfound-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  background-color: #fafafa;
+  font-family: 'Inter', sans-serif;
+}
+
+.notfound-title {
+  font-size: 5rem;
+  font-weight: bold;
+  color: #e63946;
+  margin: 0;
+}
+
+.notfound-subtitle {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.notfound-text {
+  margin-top: 0.5rem;
+  color: #666;
+}
+
+.notfound-button {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #3F72AF;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.notfound-button:hover {
+  background-color: #365f91;
+}
+
 .main-navigation-header {
   background-color: #3F72AF; /* primary nav background */
   color: #F9F7F7;
@@ -113,7 +158,8 @@ button {
   color: #333;
 }
 
-.form-control input {
+.form-control input,
+.form-control textarea {
   padding: 0.75rem;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -121,10 +167,21 @@ button {
   transition: all 0.1s ease-in-out;
 }
 
-.form-control input:focus {
+.form-control textarea {
+  resize: vertical;
+  max-height: fit-content;
+  font: inherit;
+}
+
+.form-control input:focus,
+.form-control textarea:focus {
   border-color: #38bdf8;
   box-shadow: 0 0 0 3px rgba(63, 114, 175, 0.2);
   outline: none;
+}
+
+.form-control input[type="datetime-local"] {
+  font-family: 'Inter', sans-serif;
 }
 
 .form-actions {
@@ -201,7 +258,7 @@ button {
   width: 400px;
   max-width: 90%;
   background: #fff;
-  border-radius: 12px;
+  border-radius: 12px; 
   z-index: 200; /* sits above backdrop */
   overflow: hidden;
   animation: fadeIn 0.3s ease, slideDown 0.3s ease;
@@ -240,6 +297,7 @@ button {
   cursor: pointer;
   font-weight: 500;
   transition: background 0.2s ease;
+  min-width: 80px;
 }
 
 .modal-btn:hover {
@@ -290,6 +348,141 @@ button {
   background: #365f91;
 }
 
+/* Events List Section */
+.event-list {
+  margin: 2rem auto;
+  max-width: 800px;
+  padding: 0 1rem;
+}
+
+.events-ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+/* Event Item Card */
+.event-item {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.15s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.event-item:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  background: #f9f9f9;
+}
+
+.event-title{
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0.5rem 0;
+}
+
+.event-price-date{
+  font-size: 0.9rem;
+  font-style: italic;
+  color: #666;
+  margin: 0;
+  padding-left: 0.5rem;
+}
+
+.event-details{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4 rem;
+  min-height: 3.5rem;
+  min-width: 9rem;
+}
+
+.btn-view-event {
+  padding: 0.7rem 0.75rem;
+  border: none;
+  border-radius: 8px;
+  background: #DBE2EF;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-view-event:hover {
+  opacity: 0.7;
+}
+
+.event-creator {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0;
+  text-align: center;
+}
+
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lds-ring {
+  color: #b3b3b3;
+}
+
+.lds-ring,
+.lds-ring div {
+  box-sizing: border-box;
+}
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid currentColor;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: currentColor transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .event-item {
+    font-size: 0.9rem;
+    padding: 0.8rem 1rem;
+  }
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -300,3 +493,13 @@ button {
   from { transform: translate(-50%, -60%); }
   to { transform: translate(-50%, -50%); }
 }
+
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
