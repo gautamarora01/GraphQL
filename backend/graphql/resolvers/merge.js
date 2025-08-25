@@ -1,7 +1,21 @@
 const Event = require("../../models/event");
 const User = require("../../models/user");
+const DataLoader = require('dataloader');
 
 const { dateToString } = require("../../helpers/date");
+
+const eventLoader = new DataLoader((eventIds) => {
+    return findEvents(eventIds);
+});
+
+const userLoader = new DataLoader((userIds) => {
+    return User.find({ _id: { $in: userIds } });
+});
+
+//Instead of doing N+1 request for each of the N events,
+//We batch them together into 1 request using dataloader
+//instead of each request going through event loop 
+//dataloader gathers all of them, and makes a single request
 
 //Superficial functions for transforming how we return our data, also help in refactoring
 const transformEvent = (event) => {
@@ -26,9 +40,9 @@ const transformBooking = (booking) => {
 
 //Dynamic functions to merge data instead of .populate() from mongoDB
 const findUser = (userId) => {
-    return User.findById(userId)
+    return userLoader.load(userId.toString())
         .then(user => {
-            return { ...user._doc, _id: user.id, password: null, createdEvents: findEvents.bind(this, user._doc.createdEvents) };
+            return { ...user._doc, _id: user.id, password: null, createdEvents: () => eventLoader.loadMany(user._doc.createdEvents) };
         })
         .catch(err => {
             throw err;
@@ -41,9 +55,7 @@ const findUser = (userId) => {
 const findEvents = (eventIds) => {
     return Event.find({ _id: { $in: eventIds } })
         .then(events => {
-            return events.map(event => {
-                return transformEvent(event);
-            })
+            return events.map(event=>transformEvent(event));
         })
         .catch(err => {
             throw err;
@@ -56,9 +68,9 @@ const findEvents = (eventIds) => {
 //also they are called using bind which returns a function that is not immediately called
 
 const findEvent = (eventId) => {
-    return Event.findById(eventId)
+    return eventLoader.load(eventId.toString())
     .then((event)=>{
-        return transformEvent(event);
+        return event;
     })
     .catch(err=>{
         throw err;

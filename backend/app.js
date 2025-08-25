@@ -27,7 +27,7 @@ app.use(authMiddleware);
 app.use("/graphql",graphqlHTTP({ //we can also use /api instead of /graphql
   schema: graphQlSchema,
   rootValue: graphQlResolvers,
-  graphiql:true //provides a GUI for development
+  //graphiql:true //provides a GUI for development
 }));
 
 //Connect to DB

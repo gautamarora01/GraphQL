@@ -7,6 +7,7 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState(null);
+  const [authMessage, setAuthMessage] = useState(null);
   const authContext = useContext(AuthContext);
 
   async function handleAuth(){
@@ -15,26 +16,35 @@ function AuthPage() {
 
     const requestBodySignup = { 
       query: `
-        mutation {
-          createUser(userInput: {email: "${email}", password: "${password}"}) {
+        mutation ($email: String!, $password: String!) {
+          createUser(userInput: {email: $email, password: $password}) {
             _id
             email
           }
         }
-      `
+      `,
+      variables: {
+        email: email,
+        password: password
+      }
     };
 
     const requestBodyLogin = {
       query: `
-        query {
-          login(email: "${email}", password: "${password}") {
+        query ($email: String!, $password: String!) {
+          login(email: $email, password: $password) {
             userId
             token
             tokenExpiration
           }
         }
-      `
-    }
+      `,
+      variables: {
+
+        email: email,
+        password: password
+      }
+    };
 
     try {
       const res = await fetch(import.meta.env.VITE_BACKEND_URL, {
@@ -50,13 +60,16 @@ function AuthPage() {
       if (isLoginMode && result.data?.login?.token) {
         authContext.login(result.data.login.token, result.data.login.userId, result.data.login.tokenExpiration);
         setAuthError(null);
+        setAuthMessage(null);
       } 
       else if (!isLoginMode && result.data?.createUser?._id) {
         setIsLoginMode(true);
         setAuthError(null);
+        setAuthMessage("Account created successfully! You can now log in.");
       }
       else if (result.errors && result.errors.length > 0) {
         setAuthError(result.errors[0].message);
+        setAuthMessage(null);
       }
 
     } 
@@ -68,8 +81,9 @@ function AuthPage() {
 
   return (
   <>
-    <div className="error-container">
+    <div className="message-container">
       {authError && <p className="error-message">{authError}</p>}
+      {authMessage && <p className="success-message">{authMessage}</p>}
     </div>
     <div className="auth-form">
       <h2>{isLoginMode ? "Login" : "Sign Up"}</h2>

@@ -7,13 +7,22 @@ button {
   font-family: 'Inter', sans-serif;
 }
 
-.error-container {
+
+.message-container {
   min-height: 2.5rem; /* Adjust to fit your error-message height */
 }
 
 .error-message {
   color: #b91c1c;
   background: #fee2e2;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.success-message {
+  color: #155724;
+  background: #d4edda;
   padding: 0.75rem 1rem;
   border-radius: 6px;
   font-size: 0.9rem;
@@ -418,7 +427,7 @@ button {
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .btn-view-event:hover {
@@ -473,6 +482,45 @@ button {
 }
 .lds-ring div:nth-child(3) {
   animation-delay: -0.15s;
+}
+
+.booking-item {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.15s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.booking-item:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  background: #f9f9f9;
+}
+
+.booking-p{
+  font-size: 1.4rem;
+  text-align: center;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.btn-cancel{
+  padding: 0.7rem 1rem;
+}
+
+.btn-cancel:hover{
+  background: #ff4d4d;
+  color:#ccc;
+}
+
+.btn-cancel:active{
+  scale: 0.96;
 }
 
 /* Responsive adjustments */

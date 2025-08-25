@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState, useCallback, useMemo } from "react";
 import Modal from "../components/Modal"
 import { AuthContext } from "../context/AuthContext";
 import EventItem from "../components/EventItem";
@@ -18,12 +18,45 @@ function EventsPage() {
 
   const authContext = useContext(AuthContext);
 
-  const handleBookEvent = ()=>{};
+  const handleBookEvent = async()=>{
+    setSelectedEvent(null);
 
-  const showDetailHandler = (eventId)=>{
+    const reqBody = {
+      query: `
+        mutation($eventId: ID!) {
+          bookEvent(eventId: $eventId) {
+            _id
+            createdAt
+            updatedAt
+          }
+        }
+      `,
+      variables: {
+        eventId: selectedEvent._id
+      }
+    }
+
+    try {
+      const res = await fetch(import.meta.env.VITE_BACKEND_URL,{
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + authContext.token
+        },
+        body: JSON.stringify(reqBody)
+      });
+
+      const result = await res.json();
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const showDetailHandler = useCallback((eventId)=>{
     const event = events.find(e => e._id === eventId);
     setSelectedEvent(event);
-  };
+  }, [events]);
 
   const fetchEvents= async () =>{
     
@@ -67,10 +100,10 @@ function EventsPage() {
     };
   }
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     setIsModalOpen(false);
     setSelectedEvent(null);
-  };
+  }, []);
 
   const handleConfirm = async () => {
 
@@ -85,8 +118,8 @@ function EventsPage() {
 
     const reqBody = {
       query: `
-        mutation {
-          createEvent(eventInput: {title: "${title}", price: ${price}, date: "${date}", description: "${description}"}) {
+        mutation($title: String!, $price: Float!, $date: String!, $description: String!) {
+          createEvent(eventInput: {title: $title, price: $price, date: $date, description: $description}) {
             _id
             title
             description
@@ -98,7 +131,13 @@ function EventsPage() {
             }
           }
         }
-      `
+      `,
+      variables: {
+        title: title,
+        price: price,
+        date: date,
+        description: description
+      }
     }
     
     try {
@@ -124,7 +163,7 @@ function EventsPage() {
     fetchEvents();
   },[]);
 
-  const eventList = events.map(event => (
+  const eventList = useMemo(() => events.map(event => (
     <EventItem 
       key={event._id} 
       eventId={event._id} 
@@ -135,7 +174,7 @@ function EventsPage() {
       isCreator={event.creator._id === authContext.userId}
       onViewDetail={showDetailHandler}
     />
-  ));
+  )), [events, authContext.userId, showDetailHandler]);
 
   return (
     <>

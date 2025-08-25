@@ -9,7 +9,7 @@ module.exports = {
 
         if(!req.isAuth) throw new Error("Authentication failed!");
 
-        return Booking.find()
+        return Booking.find({user: req.userId})
         .then((bookings)=>{
             return bookings.map((booking)=>{
                 return transformBooking(booking);

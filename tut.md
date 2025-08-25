@@ -108,3 +108,5 @@ bcrypt.compare(submittedPassword, hashedPasswordInDb)
 NOTE: we should always give away same error message if user does not exist or password is incorrect and it should be invalid credentials. (so that no info is given out)'
 
 NOTE: In React, Context lets the parent component make some information available to any component in the tree below it—no matter how deep—without passing it explicitly through props.
+
+NOTE: Batching/Caching -> https://github.com/graphql/dataloader
